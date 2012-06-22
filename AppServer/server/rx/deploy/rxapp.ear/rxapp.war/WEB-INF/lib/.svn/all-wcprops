@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/psolib/!svn/ver/1599/PSOAutoNavLandingPage/AppServer/server/rx/deploy/rxapp.ear/rxapp.war/WEB-INF/lib
+END
+userextensions.jar
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/psolib/!svn/ver/1599/PSOAutoNavLandingPage/AppServer/server/rx/deploy/rxapp.ear/rxapp.war/WEB-INF/lib/userextensions.jar
+END
+psctoolkit5.jar
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/psolib/!svn/ver/1599/PSOAutoNavLandingPage/AppServer/server/rx/deploy/rxapp.ear/rxapp.war/WEB-INF/lib/psctoolkit5.jar
+END

@@ -1,0 +1,79 @@
+<project name="PSOAutoNavLandingPage" default="dist" basedir=".">
+	<property environment="env"/>
+	<!--<property name="build.sysclasspath" value="ignore"/>-->
+	<property name="rx_home" location="c:\rx6"/>
+	<property name="rxapp_lib" location="${rx_home}/AppServer/server/rx/deploy/rxapp.ear/rxapp.war/WEB-INF/lib" />
+	<property name="rxser_lib" location="${rx_home}/AppServer/server/rx/lib" />
+	<property name="src" location="src"/>
+	<property name="classes" location="bin"/>
+	<property name="comspec" location="${env.SystemRoot}/system32/cmd.exe"/>
+	<property name="jarname" value="userextensions.jar" />
+	
+	<path id="project.classpath"> 
+		 <fileset dir="${rxapp_lib}">
+		 	<include name="**.jar"/>
+		 	<exclude name="${jarname}"/>
+		 </fileset>
+	</path>
+
+	<target name="compile" depends="user-clean" description="compile the source " >
+		<!-- Compile the java code from ${src} into ${build} -->
+		<javac srcdir="${src}" verbose="yes" failonerror="true" destdir="${classes}">
+			<classpath refid="project.classpath"/>
+		</javac>
+	</target>
+	<target name="javadoc" depends="compile">
+		<mkdir dir="apidoc"/>
+		<javadoc destdir="apidoc" private="false" windowtitle="${ant.project.name}">
+			<packageset dir="${src}" defaultexcludes="yes">
+				<include name="com/percussion/consulting/**"/>
+				<include name="com/percussion/extension/**"/>
+			</packageset>
+			<classpath refid="project.classpath"/>
+		</javadoc>
+	</target>
+	<target name="servertest" depends="compile" description="test the server">
+		<jar jarfile="userextensions.jar" basedir="${classes}"/>
+		<exec executable="net.exe" failonerror="false">
+		  <arg line="stop ${rx.service}" />
+	      <env key="COMSPEC" path="${comspec}"/>
+		</exec>
+		<copy file="userextensions.jar" todir="${rx_home}/libExtras"/>	
+		<exec executable="net.exe" failonerror="true">
+		  <arg line="start ${rx.service}" />
+		  <env key="COMSPEC" path="${comspec}"/>
+		</exec>	
+	</target>	
+	<target name="copytoserver" depends="dist" description="copy to server">
+		<jar jarfile="libExtras/userextensions.jar" basedir="${classes}"/>
+		<copy file="libExtras/userextensions.jar" todir="${rxapp_lib}"/>
+		<copy file="libExtras/psctoolkit.jar" todir="${rxapp_lib}"/>
+		<copy file="Extensions.xml" todir="${rx_home}"/>
+		<copy file="installExtensions.bat" todir="${rx_home}"/>
+		<copy todir="${rx_home}/rxconfig/Server">
+			<fileset dir="*.xml"/>
+		</copy>
+	</target>		
+	
+	<target name="dist" depends="compile" description="generate the distribution">
+		<buildnumber/>
+		<propertyfile file="${classes}/build.properties">
+			<entry key="build.number" value="${build.number}"/>
+			<entry key="build.date" type="date" pattern="EEEE MMM dd yyyy" value="now"/>
+		</propertyfile>
+		<jar jarfile="libExtras/userextensions.jar" basedir="${classes}"/>
+		<copy todir="AppServer/server/rx/deploy/rxapp.ear/rxapp.war/WEB-INF/lib">
+			<fileset dir="libExtras" />
+		</copy>
+		<zip destfile="PSOAutoNavLandingPage.zip" update="true">
+		    <zipfileset dir="src"/>
+		    <fileset dir="." includes="Extensions.xml, installExtensions.bat" />
+		    <fileset dir="." includes="*.doc"/>
+		    <fileset dir="." includes="rxconfig/Server/*.*"/>
+   		    <fileset dir="." includes="AppServer/server/rx/deploy/rxapp.ear/rxapp.war/WEB-INF/lib/*.*"/>
+		</zip>
+	</target>
+	<target name="user-clean" description="clean up">
+		<delete dir="${classes}/*"/>
+	</target>
+</project>

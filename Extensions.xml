@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PSXExtensionHandlerConfiguration handlerName="Java">
+   <Extension categorystring="" context="global/percussion/relationship/effect/" deprecated="no" handler="Java" name="AutoNavLandingPage" restoreRequestParamsOnError="no">
+      <initParam name="com.percussion.user.description">PSO Auto Navigation Landing Page</initParam>
+      <initParam name="com.percussion.extension.version">3</initParam>
+      <initParam name="com.percussion.extension.reentrant">yes</initParam>
+      <initParam name="className">com.percussion.pso.which.managednav.PSONavFolderEffect</initParam>
+      <interface name="com.percussion.relationship.IPSEffect"/>
+      <suppliedResources/>
+   </Extension>
+</PSXExtensionHandlerConfiguration>
