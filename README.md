@@ -1,7 +1,7 @@
 PSOAutoNavLandingPage
 =====================
 
-This extensions will automatically associate a item (defined as a landing page in a configuration file) to the Navon or NavTree residing in the folder it was created in.  If the Navon or NavTree already has a Landing Page, then no action is taken.
+These extensions will automatically associate a item (defined as a landing page in a configuration file) to the Navon or NavTree residing in the folder it was created in.  If the Navon or NavTree already has a Landing Page, then no action is taken.
 
 Prerequisite
 Ant needs to be installed on the server to install the extensions
